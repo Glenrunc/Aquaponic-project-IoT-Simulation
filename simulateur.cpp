@@ -2,8 +2,9 @@
 
 /**
  * Method uses by Server
-*/
-Server& Server::operator=(const Server &s){
+ */
+Server &Server::operator=(const Server &s){
+    
     this->nbOfSensor = s.nbOfSensor;
     this->consolActivation = s.consolActivation;
     this->logActivation = s.logActivation;
@@ -11,6 +12,10 @@ Server& Server::operator=(const Server &s){
     return (*this);
 }
 
+template<typename T>
+Sensor<T>& Sensor<T>::operator=(const Sensor<T> &s){
+    
+    this->valSense = s.valSense;
 
-
-
+    return (*this);
+}

@@ -2,10 +2,8 @@
 
 int main(int argc, char* argv[]){
     
-    std::cout<<"Hello worlde"<<std::endl;
-    Server s1;
-    
-    Sensor<float> sensor1(0.6);
+    Temperature t1(0.9,"temp");
 
-    return 0; //Test Git
+   
+    return 0; 
 }
