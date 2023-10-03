@@ -1,10 +1,11 @@
 #include <simulateur.hpp>
 
 int main(int argc, char* argv[]){
-    
-    Sensor<int> s1("TEMPERATURE",0,90);
-    s1.aleaGen();
-    s1.consoleWrite();
-   
+    // const std::string temperature = "TEMPERATURE";
+    Temperature t1("TEMPERATURE");
+    Temperature t2(t1);
+
+    t1.consoleWrite();
+    t2.consoleWrite();
     return 0; 
 }

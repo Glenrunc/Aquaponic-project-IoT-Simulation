@@ -16,11 +16,16 @@ Server &Server::operator=(const Server &s){
 */
 template<typename T>
 Sensor<T>& Sensor<T>::operator=(const Sensor<T> &s){
-    
     this->valSense = s.valSense;
-    this->nameSensor = s.nameSensor;
-    this->min = s.min;
-    this->max = s.max;
+    
+    return (*this);
+}
+
+Temperature& Temperature::operator=(const Temperature&  t){
+    this->valSense = t.valSense;
+    this->_max = t._max;
+    this->_min = t._min;
+    this->nameSensor = t.nameSensor;
 
     return (*this);
 }

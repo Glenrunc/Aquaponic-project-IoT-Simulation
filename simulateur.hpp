@@ -5,7 +5,8 @@
 #include <random>
 #include <string>
 
-class Server{
+class Server
+{
 private:
     int nbOfSensor;
     bool consolActivation;
@@ -24,42 +25,59 @@ public:
     };
 };
 
+/**
+ * @brief Parent Sensor class template<T>
+ * 
+ * @tparam T (bool;float;int). It depends of the sensor
+ */
 template <typename T>
-class Sensor{
+class Sensor
+{
 
-private:
-
-    const std::string nameSensor;
+protected:
     T valSense;
-    T min,max;
-    
-public:
 
+public:
     Sensor(){};
-    Sensor(const Sensor &s) : valSense(s.valSense),nameSensor(s.nameSensor),min(s.min),max(s.max){};
+    Sensor(const Sensor &s) : valSense(s.valSense){};
     ~Sensor(){};
-    Sensor(const std::string _nameSensor,T _min,T _max): nameSensor(_nameSensor),min(_min),max(_max){};
     Sensor &operator=(const Sensor &);
     Sensor(T valRcv) : valSense(valRcv){};
 
-    void aleaGen(); //implement here
-
-    void consoleWrite(){
-        std::cout<<this->nameSensor<<": "<<this->valSense<<std::endl;
-    }
+    virtual T aleaGen() = 0;
 };
 
-// class Temperature : protected Sensor<float>{
+/**
+ * @brief Child Class of Sensor 
+ * Currently thinking of how improve this class(other params)
+ */
+class Temperature : protected Sensor<float>{
 
-// private:
-//     std::string nameSensor;
-    
+private:
+    std::string nameSensor;
+    float _min = -60.0;
+    float _max = 60.0;
 
-// public:
-//     Temperature(){};
-//     Temperature(const Temperature &t) : Sensor<float>(t), nameSensor(t.nameSensor){};
-//     Temperature(const std::string _namesensor): Sensor<float>(valSense),nameSensor(_namesensor){};//replace valSense apar alea gen
-//     float aleaGen(); 
-// };
+public:
+    Temperature(){};
+    Temperature(const Temperature &t) : Sensor<float>(t.valSense), nameSensor(t.nameSensor){};
+    Temperature &operator=(const Temperature &);
+    Temperature(std::string _namesensor)
+    {
+        this->nameSensor = _namesensor;
+        this->valSense = this->aleaGen();
+    }
+    ~Temperature(){};
+
+    float aleaGen()
+    {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+
+        std::uniform_real_distribution<float> dist(this->_min, this->_max);
+
+        return dist(gen);
+    };
+};
 
 #endif
