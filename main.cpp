@@ -2,8 +2,9 @@
 
 int main(int argc, char* argv[]){
     
-    Temperature t1(0.9,"temp");
-
+    Sensor<int> s1("TEMPERATURE",0,90);
+    s1.aleaGen();
+    s1.consoleWrite();
    
     return 0; 
 }

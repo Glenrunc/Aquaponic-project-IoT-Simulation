@@ -27,31 +27,39 @@ public:
 template <typename T>
 class Sensor{
 
-protected:
+private:
+
+    const std::string nameSensor;
     T valSense;
-
+    T min,max;
+    
 public:
-    Sensor(){};
-    Sensor(const Sensor &s) : valSense(s.valSense){};
-    ~Sensor(){};
-    Sensor &operator=(const Sensor &);
 
+    Sensor(){};
+    Sensor(const Sensor &s) : valSense(s.valSense),nameSensor(s.nameSensor),min(s.min),max(s.max){};
+    ~Sensor(){};
+    Sensor(const std::string _nameSensor,T _min,T _max): nameSensor(_nameSensor),min(_min),max(_max){};
+    Sensor &operator=(const Sensor &);
     Sensor(T valRcv) : valSense(valRcv){};
 
-    // virtual T aleaGen();
+    void aleaGen(); //implement here
+
+    void consoleWrite(){
+        std::cout<<this->nameSensor<<": "<<this->valSense<<std::endl;
+    }
 };
 
-class Temperature : protected Sensor<float>{
+// class Temperature : protected Sensor<float>{
 
-private:
-    std::string nameSensor;
-    // float aleaGen() { return 0.6; };
+// private:
+//     std::string nameSensor;
+    
 
-public:
-    Temperature(){};
-    Temperature(const Temperature &t) : Sensor<float>(t), nameSensor(t.nameSensor){};
-    Temperature(float valSense, const std::string _namesensor): Sensor<float>(valSense),nameSensor(_namesensor){};
-  
-};
+// public:
+//     Temperature(){};
+//     Temperature(const Temperature &t) : Sensor<float>(t), nameSensor(t.nameSensor){};
+//     Temperature(const std::string _namesensor): Sensor<float>(valSense),nameSensor(_namesensor){};//replace valSense apar alea gen
+//     float aleaGen(); 
+// };
 
 #endif
