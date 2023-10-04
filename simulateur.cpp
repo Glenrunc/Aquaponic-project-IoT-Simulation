@@ -22,6 +22,7 @@ Sensor<T>& Sensor<T>::operator=(const Sensor<T> &s){
 }
 
 Temperature& Temperature::operator=(const Temperature&  t){
+    
     this->valSense = t.valSense;
     this->_max = t._max;
     this->_min = t._min;

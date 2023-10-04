@@ -5,7 +5,7 @@
 #include <random>
 #include <string>
 
-static _num_sensor = 0;
+static int _num_sensor = 0;
 
 class Server
 {
@@ -43,11 +43,11 @@ protected:
     int num_sensor;
 
 public:
-    Sensor(){};
-    Sensor(const Sensor &s) : valSense(s.valSense){};
-    ~Sensor(){};
+    Sensor(){_num_sensor++; this->num_sensor = _num_sensor;};
+    Sensor(const Sensor &s){this->valSense=s.valRcv;this->nameSensor = s.nameSensor;_num_sensor++; this->num_sensor = _num_sensor;};
+    ~Sensor(){_num_sensor--;};
     Sensor &operator=(const Sensor &);
-    Sensor(T valRcv,std::string _namesensor) : valSense(valRcv),nameSensor(_namesensor){};
+    Sensor(T valRcv,std::string _namesensor){this->valSense=valRcv;this->nameSensor = _namesensor;_num_sensor++; this->num_sensor = _num_sensor; };
 
     virtual T aleaGen() = 0;
 };
@@ -64,10 +64,10 @@ private:
     float _max = 60.0;
 
 public:
-    Temperature(){this->nameSensor = "Temperature Sensor"; this->valSense = this->aleaGen(); this->num_sensor = _num_sensor; _num_sensor++;};
+    Temperature(){this->nameSensor = "Temperature Sensor"; this->valSense = this->aleaGen();};
     Temperature(const Temperature &t) : Sensor<float>(t.valSense,t.nameSensor){};
     Temperature &operator=(const Temperature &);
-    ~Temperature(){};
+    ~Temperature(){_num_sensor--;};
 
     float aleaGen()
     {
@@ -79,7 +79,7 @@ public:
         return dist(gen);
     };
     void consoleWrite(){
-        std::cout<<this->nameSensor<<": "<<this->valSense<<std::endl;
+        std::cout<<this->nameSensor<<" "<<this->num_sensor<<": "<<this->valSense<<std::endl;
     }
 };
 
