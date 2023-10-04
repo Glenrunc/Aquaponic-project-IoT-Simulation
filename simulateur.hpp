@@ -5,6 +5,8 @@
 #include <random>
 #include <string>
 
+static _num_sensor = 0;
+
 class Server
 {
 private:
@@ -35,18 +37,22 @@ class Sensor
 {
 
 protected:
+
     T valSense;
+    std::string nameSensor;
+    int num_sensor;
 
 public:
     Sensor(){};
     Sensor(const Sensor &s) : valSense(s.valSense){};
     ~Sensor(){};
     Sensor &operator=(const Sensor &);
-    Sensor(T valRcv) : valSense(valRcv){};
+    Sensor(T valRcv,std::string _namesensor) : valSense(valRcv),nameSensor(_namesensor){};
 
     virtual T aleaGen() = 0;
 };
 
+//IMPLEMENTATION OF NUM_SENSOR TO FINISH 
 /**
  * @brief Child Class of Sensor 
  * Currently thinking of how improve this class(other params)
@@ -54,19 +60,13 @@ public:
 class Temperature : protected Sensor<float>{
 
 private:
-    std::string nameSensor;
     float _min = -60.0;
     float _max = 60.0;
 
 public:
-    Temperature(){};
-    Temperature(const Temperature &t) : Sensor<float>(t.valSense), nameSensor(t.nameSensor){};
+    Temperature(){this->nameSensor = "Temperature Sensor"; this->valSense = this->aleaGen(); this->num_sensor = _num_sensor; _num_sensor++;};
+    Temperature(const Temperature &t) : Sensor<float>(t.valSense,t.nameSensor){};
     Temperature &operator=(const Temperature &);
-    Temperature(std::string _namesensor)
-    {
-        this->nameSensor = _namesensor;
-        this->valSense = this->aleaGen();
-    }
     ~Temperature(){};
 
     float aleaGen()
@@ -78,6 +78,9 @@ public:
 
         return dist(gen);
     };
+    void consoleWrite(){
+        std::cout<<this->nameSensor<<": "<<this->valSense<<std::endl;
+    }
 };
 
 #endif
