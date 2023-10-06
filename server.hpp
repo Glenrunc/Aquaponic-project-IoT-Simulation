@@ -1,5 +1,6 @@
 #ifndef __SERVER_HPP__
 #define __SERVER_HPP__
+#include <sheduler.hpp>
 
 class Server
 {

@@ -1,27 +1,18 @@
 CC = g++
 CFLAGS = -g -Wall -Werror -pedantic 
 TARGET = main.exe
-SRCS = simulateur.cpp
-OBJS = $(filter-out main.o, $(SRCS:.cpp=.o))
-LIBNAME = libSimulateur.so
+SRCS = $(wildcard *.cpp)
+OBJS = $(SRCS:.cpp=.o)
 
 all: $(TARGET)
 
-$(TARGET): main.o $(LIBNAME)
+$(TARGET): $(OBJS)
 
-	$(CC) $(CFLAGS) -o $(TARGET) main.o -L. -lSimulateur
+	$(CC) $(CFLAGS)	-I. -o $(TARGET) $(OBJS)
 
-main.o: main.cpp
+%.o : %.cpp
 
-	$(CC) $(CFLAGS) -I. -c main.cpp -o main.o
-
-$(LIBNAME): $(OBJS)
-
-	$(CC) $(CFLAGS) -shared -o  $(LIBNAME) $(OBJS)
-
-$(OBJS) : $(SRCS)
-
-	$(CC) $(CFLAGS) -I. -o $(OBJS) -c $(SRCS)
-
+	$(CC) $(CFLAGS) -I. -c -o $@ $<
+	
 clean:
 	rm -f *.o *.so *.exe *.txt
