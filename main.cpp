@@ -1,16 +1,14 @@
 #include <server.hpp>
 
 int main(int argc, char* argv[]){
-    // const std::string temperature = "TEMPERATURE";
-    Temperature t1;
 
-    Temperature t2;
+    Sensor<float> s("Temperature",-60.0,60.0);
+    Sensor<float> s1(s);
+    Sensor<int> s2("Sound",0,200);
 
-    t1.consoleWrite();
-    t2.consoleWrite();
-
-    t1 = t2;
-    t1.consoleWrite();
-    t2.consoleWrite();
+    // s.consolWrite();
+    s1.consolWrite();
+    s2.consolWrite();
+    
     return 0; 
 }
