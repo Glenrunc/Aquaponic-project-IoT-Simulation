@@ -17,9 +17,6 @@
 
 using namespace std;
 
-static random_device rd;
-static mt19937 gen(rd());
-
 /**
  * @brief Sensor class template<T>
  *
@@ -63,8 +60,13 @@ public:
     };
 
     float aleaGen(){
+        std::mt19937 gen(std::random_device{}()); 
         std::uniform_real_distribution dist(this->min, this->max);
         return dist(gen);
+    }
+    void consoleWrite(){
+        this->valSense = aleaGen();
+        cout<<this->valSense<<endl;
     }
     virtual ~Temperature(){};
 };
@@ -104,6 +106,7 @@ public:
     };
 
     int aleaGen(){
+        std::mt19937 gen(std::random_device{}()); 
         std::uniform_int_distribution dist(this->min, this->max);
         return dist(gen);
     }
