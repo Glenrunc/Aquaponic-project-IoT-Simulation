@@ -14,7 +14,7 @@
 #include <iostream>
 #include <random>
 #include <string>
-
+#include <vector>
 using namespace std;
 
 /**
@@ -32,7 +32,10 @@ public:
     T sendData(){ return this->valSense;};
     virtual T aleaGen() = 0;
 };
-
+/**
+ * @brief Child of Sensor -> temperature
+ * 
+ */
 class Temperature : public Sensor<float>{
 private:
     float min, max;
@@ -53,9 +56,11 @@ public:
         this->max = t.max;
     };
     Temperature &operator=(const Temperature &t){
-        this->valSense = t.valSense;
-        this->min = t.min;
-        this->max = t.max;
+        if(this != &t){
+            this->valSense = t.valSense;
+            this->min = t.min;
+            this->max = t.max;
+        }
         return (*this);
     };
 
@@ -64,13 +69,14 @@ public:
         std::uniform_real_distribution dist(this->min, this->max);
         return dist(gen);
     }
-    void consoleWrite(){
-        this->valSense = aleaGen();
-        cout<<this->valSense<<endl;
-    }
     virtual ~Temperature(){};
 };
 
+
+/**
+ * @brief Child class of temperature -> Humidity
+ * 
+ */
 // Obviously a temperature sensor is not a humidity sensor. But in my implementation it's more usefull
 class Humidity : public Temperature{
 public:
@@ -78,7 +84,10 @@ public:
     Humidity(float _min, float _max, std::string _nameSensor) : Temperature(_min, _max, _nameSensor) {}
     virtual ~Humidity(){};
 };
-
+/**
+ * @brief Child class of sensor -> Sound
+ * 
+ */
 class Sound : public Sensor<int>{
 private:
     int min, max;
@@ -99,9 +108,11 @@ public:
         this->max = s.max;
     };
     Sound &operator=(const Sound &s){
-        this->valSense = s.valSense;
-        this->min = s.min;
-        this->max = s.max;
+        if(this != &s){
+            this->valSense = s.valSense;
+            this->min = s.min;
+            this->max = s.max;
+        }
         return (*this);
     };
 
@@ -112,7 +123,10 @@ public:
     }
     virtual ~Sound(){};
 };
-
+/**
+ * @brief Child class of Sound --> Light
+ * 
+ */
 class Light : public Sound{
 public:
     Light() {}

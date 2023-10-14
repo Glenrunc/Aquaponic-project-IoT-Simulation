@@ -2,27 +2,27 @@
 #define __SERVER_HPP__
 #include <sensor.hpp>
 
+
 class Server{
 private:
-    string filename;
+    
+    vector<string> filename;
     bool consolActivation;
     bool logActivation;
 
 public:
-    Server() : filename("\0")
-    {
-        this->consolActivation = true;
+    Server(){
+        this->consolActivation = false;
         this->logActivation = false;
     };
     Server(const Server &s) : filename(s.filename), consolActivation(s.consolActivation), logActivation(s.logActivation){};
-    Server(string _filename, bool _consolActivation, bool _logActivation) : filename(_filename), consolActivation(_consolActivation), logActivation(_logActivation){};
     ~Server(){};
-    Server &operator=(const Server &s)
-    {
-        this->filename = s.filename;
-        this->consolActivation = s.consolActivation;
-        this->logActivation = s.logActivation;
-
+    Server &operator=(const Server &s){
+        if (this != &s){
+            this->filename = s.filename;
+            this->consolActivation = s.consolActivation;
+            this->logActivation = s.logActivation;
+        }
         return (*this);
     };
 };
