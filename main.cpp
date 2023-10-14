@@ -1,6 +1,4 @@
-#include <server.hpp>
-
-
+#include <sheduler.hpp>
 
 int main(int argc, char* argv[]){
     

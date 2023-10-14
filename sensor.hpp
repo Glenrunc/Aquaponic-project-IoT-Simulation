@@ -1,3 +1,13 @@
+/**
+ * @file sensor.hpp
+ * @author Mattéo Pourcine (pourcinematteo@gmail.com)
+ * @brief 
+ * @version 0.1
+ * @date 2023-10-14
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
 #ifndef __SENSOR_HPP__
 #define __SENSOR_HPP__
 
@@ -6,23 +16,23 @@
 #include <string>
 
 using namespace std;
-static std::random_device rd;
-static std::mt19937 gen(rd());
+
+static random_device rd;
+static mt19937 gen(rd());
 
 /**
  * @brief Sensor class template<T>
  *
  * @tparam T (bool;float;int). It depends of the sensor
  */
-template <typename T>
+template <class T>
 class Sensor
 {
 protected:
     T valSense;
-    std::string nameSensor;
-
+    string nameSensor;
 public:
-    T sendData(){ return this->valSense;};//TODO
+    T sendData(){ return this->valSense;};
     virtual T aleaGen() = 0;
 };
 

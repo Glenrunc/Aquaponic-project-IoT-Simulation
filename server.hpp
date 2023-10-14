@@ -1,28 +1,30 @@
 #ifndef __SERVER_HPP__
 #define __SERVER_HPP__
-#include <sheduler.hpp>
+#include <sensor.hpp>
 
-class Server
-{
+class Server{
 private:
-    int nbOfSensor;
+    string filename;
     bool consolActivation;
     bool logActivation;
-  
+
 public:
-    Server(){};
-    Server(const Server &s) : nbOfSensor(s.nbOfSensor), consolActivation(s.consolActivation), logActivation(s.logActivation){};
-    Server(int nbOfSensor, bool consolActivation, bool logActivation) : nbOfSensor(nbOfSensor), consolActivation(consolActivation), logActivation(logActivation){};
+    Server() : filename("\0")
+    {
+        this->consolActivation = true;
+        this->logActivation = false;
+    };
+    Server(const Server &s) : filename(s.filename), consolActivation(s.consolActivation), logActivation(s.logActivation){};
+    Server(string _filename, bool _consolActivation, bool _logActivation) : filename(_filename), consolActivation(_consolActivation), logActivation(_logActivation){};
     ~Server(){};
-    Server &operator=(const Server & s){
-        this->nbOfSensor = s.nbOfSensor;
+    Server &operator=(const Server &s)
+    {
+        this->filename = s.filename;
         this->consolActivation = s.consolActivation;
         this->logActivation = s.logActivation;
 
         return (*this);
     };
-
-   
 };
 
 #endif

@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -g -Wall -Werror -pedantic 
+CFLAGS = -g -Wall -Werror -pedantic -pthread 
 TARGET = main.exe
 SRCS = $(wildcard *.cpp)
 OBJS = $(SRCS:.cpp=.o)
