@@ -36,6 +36,8 @@ protected:
     
 public:
     T sendData() { return this->_val_sense; };
+    string getNameSensor(){ return this->_name_sensor;};
+    float getSensorFrequency(){ return this->_sensor_frequency;};
     virtual T aleaGen() = 0;
 };
 /**
