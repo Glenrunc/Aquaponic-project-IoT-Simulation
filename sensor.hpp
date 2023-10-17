@@ -18,6 +18,9 @@
 #include <ctime>
 #include <fstream>
 #include <filesystem>
+#include <thread>
+#include <chrono>
+#include <limits>
 
 using std::string, std::cout,std::cerr, std::endl, std::vector, std::ofstream;
 
@@ -31,13 +34,15 @@ class Sensor
 {
 protected:
     T _val_sense;
-    string _name_sensor;
-    float _sensor_frequency;
+    string _name_sensor; 
+    string _unit; //Usefull for console writing
+    int _sensor_frequency; //in millisecond ! 
     
 public:
-    T sendData() { return this->_val_sense; };
+    T sendData() { this->_val_sense = this->aleaGen(); return this->_val_sense; };
     string getNameSensor(){ return this->_name_sensor;};
-    float getSensorFrequency(){ return this->_sensor_frequency;};
+    string getUnit(){return  this->_unit;};
+    int getSensorFrequency(){ return this->_sensor_frequency;};
     virtual T aleaGen() = 0;
 };
 /**
@@ -55,6 +60,7 @@ public:
         this->_name_sensor = "UNKNOWN";
         this->_val_sense = 0;
         this->_sensor_frequency = 0;
+        this->_unit = "°C";
 
     };
     Temperature(float min, float max,float sensorFrequency, std::string nameSensor) : _min(min), _max(max)
@@ -62,6 +68,7 @@ public:
         this->_sensor_frequency = sensorFrequency;
         this->_name_sensor = nameSensor;
         this->_val_sense = this->aleaGen();
+        this->_unit = "°C";
         
     };
     Temperature(const Temperature &t)
@@ -71,6 +78,8 @@ public:
         this->_val_sense = t._val_sense;
         this->_min = t._min;
         this->_max = t._max;
+        this->_unit = t._unit;
+
     };
     Temperature &operator=(const Temperature &t)
     {
@@ -80,6 +89,7 @@ public:
             this->_val_sense = t._val_sense;
             this->_min = t._min;
             this->_max = t._max;
+            this->_unit = t._unit;
         }
         return (*this);
     };
@@ -101,8 +111,11 @@ public:
 class Humidity : public Temperature
 {
 public:
-    Humidity() {}
-    Humidity(float min, float max,float sensorFrequency, std::string nameSensor) : Temperature(min, max,sensorFrequency, nameSensor) {}
+    Humidity() {this->_unit = "%";};
+    Humidity(float min, float max,float sensorFrequency, std::string nameSensor) : Temperature(min, max,sensorFrequency, nameSensor) {
+        this->_unit = "%";
+    };
+    
     virtual ~Humidity(){};
 };
 
@@ -120,13 +133,16 @@ public:
     {
         this->_name_sensor = "UNKNOWN";
         this->_val_sense = 0;
-        this->_sensor_frequency = 0;
+        this->_sensor_frequency = 0; 
+        this->_unit = "dB";
     };
     Sound(int min, int max,float sensorFrequency, std::string nameSensor) : _min(min), _max(max)
     {   
         this->_name_sensor = nameSensor;
         this->_val_sense = this->aleaGen();
         this->_sensor_frequency = sensorFrequency;
+        this->_unit = "dB";
+
 
     };
     Sound(const Sound &s)
@@ -136,6 +152,7 @@ public:
         this->_val_sense = s._val_sense;
         this->_min = s._min;
         this->_max = s._max;
+        this->_unit = s._unit;
     };
     Sound &operator=(const Sound &s)
     {
@@ -145,6 +162,7 @@ public:
             this->_val_sense = s._val_sense;
             this->_min = s._min;
             this->_max = s._max;
+            this->_unit = s._unit;
         }
         return (*this);
     };
@@ -166,18 +184,22 @@ public:
         this->_name_sensor = "UNKNOWN";
         this->_val_sense = false;
         this->_sensor_frequency = 0;
+        this->_unit = " ";
     };
     Light(float sensorFrequency, std::string nameSensor)
     {
         this->_name_sensor = nameSensor;
         this->_val_sense = this->aleaGen();
         this->_sensor_frequency = sensorFrequency;
+        this->_unit = " ";
     };
     Light(const Light &l)
     {   
         this->_sensor_frequency = l._sensor_frequency;
         this->_name_sensor = l._name_sensor;
         this->_val_sense = l._val_sense;
+        this->_unit = l._unit;
+
     };
     Light &operator=(const Light &l)
     {
@@ -186,6 +208,8 @@ public:
             this->_sensor_frequency = l._sensor_frequency;
             this->_name_sensor = l._name_sensor;
             this->_val_sense = l._val_sense;
+            this->_unit = l._unit;
+
         }
         return (*this);
     };

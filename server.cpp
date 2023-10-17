@@ -1,3 +1,14 @@
+/**
+ * @file server.cpp
+ * @author Mattéo Pourcine 
+ * @brief 
+ * @version 0.1
+ * @date 2023-10-17
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+
 #include <server.hpp>
 
 /**
@@ -57,7 +68,8 @@ string Server::getDayAndYear()
     time_t now = time(0);
     struct tm *timeinfo = localtime(&now);
     int day = timeinfo->tm_mday;         // Day of the month (1-31)
+    int month = timeinfo->tm_mon + 1;
     int year = 1900 + timeinfo->tm_year; // Year since 1900
-    return "_" + std::to_string(day) + "_" + std::to_string(year)+ "_";
+    return "_" + std::to_string(day) + "_" + std::to_string(month)+ "_" + std::to_string(year)+ "_";
 }
 
