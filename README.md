@@ -1,2 +1,2 @@
-# SIMPLE TP PROJECT AP4A
+# SIMPLE PRACTICAL PROJECT OOP IN C++ ~ IoT Implementation
 - See UML diagram
