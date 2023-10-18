@@ -22,7 +22,7 @@
 #include <chrono>
 #include <limits>
 
-using std::string, std::cout,std::cerr, std::endl, std::vector, std::ofstream;
+using std::string, std::cout, std::cerr, std::endl, std::vector, std::ofstream;
 
 /**
  * @brief Sensor class template<T>
@@ -30,21 +30,35 @@ using std::string, std::cout,std::cerr, std::endl, std::vector, std::ofstream;
  * @tparam T (bool;float;int). It depends of the sensor
  */
 template <class T>
-class Sensor{
+class Sensor
+{
 
 protected:
-
+    T _min;
+    T _max;
     T _val_sense;
-    string _name_sensor; 
-    string _unit; //Usefull for console writing
-    int _sensor_frequency; //in millisecond ! 
-    
-public:
+    string _name_sensor;
+    string _unit;          // Usefull for console writing
+    int _sensor_frequency; // in millisecond !
 
-    T sendData() { this->_val_sense = this->aleaGen(); return this->_val_sense; };
-    string getNameSensor(){ return this->_name_sensor;};
-    string getUnit(){return  this->_unit;};
-    int getSensorFrequency(){ return this->_sensor_frequency;};
+public:
+    Sensor() { this->_name_sensor = "UNKNOWN"; };
+    Sensor(float min, float max, float sensorFrequency, std::string nameSensor)
+    {
+
+        this->_min = min;
+        this->_max = max;
+        this->_sensor_frequency = sensorFrequency;
+        this->_name_sensor = nameSensor;
+    }
+    T sendData()
+    {
+        this->_val_sense = this->aleaGen();
+        return this->_val_sense;
+    };
+    string getNameSensor() { return this->_name_sensor; };
+    string getUnit() { return this->_unit; };
+    int getSensorFrequency() { return this->_sensor_frequency; };
     virtual T aleaGen() = 0;
 };
 
@@ -52,59 +66,24 @@ public:
  * @brief Child of Sensor -> temperature
  *
  */
-class Temperature : public Sensor<float>{
-private:
-    
-    float _min, _max;
+class Temperature : public Sensor<float>
+{
 
 public:
+    Temperature() : Sensor(){};
 
-    Temperature() : _min(0), _max(0) {
-        
-        this->_name_sensor = "UNKNOWN";
-        this->_val_sense = 0;
-        this->_sensor_frequency = 0;
-        this->_unit = "°C";
-
-    };
-
-    Temperature(float min, float max,float sensorFrequency, std::string nameSensor) : _min(min), _max(max){   
-        
-        this->_sensor_frequency = sensorFrequency;
-        this->_name_sensor = nameSensor;
+    Temperature(float min, float max, float sensorFrequency, std::string nameSensor) : Sensor(min, max, sensorFrequency, nameSensor)
+    {
         this->_val_sense = this->aleaGen();
         this->_unit = "°C";
-    
     };
 
-    Temperature(const Temperature &t){   
-        
-        this->_sensor_frequency = t._sensor_frequency;
-        this->_name_sensor = t._name_sensor;
-        this->_val_sense = t._val_sense;
-        this->_min = t._min;
-        this->_max = t._max;
-        this->_unit = t._unit;
-    
-    };
-    Temperature &operator=(const Temperature &t){
-        
-        if (this != &t){
-            this->_sensor_frequency = t._sensor_frequency;
-            this->_val_sense = t._val_sense;
-            this->_min = t._min;
-            this->_max = t._max;
-            this->_unit = t._unit;
-        }
-        return (*this);
-    };
+    float aleaGen()
+    {
 
-    float aleaGen(){
-        
         std::mt19937 gen(std::random_device{}());
         std::uniform_real_distribution dist(this->_min, this->_max);
         return dist(gen);
-
     };
 
     virtual ~Temperature(){};
@@ -115,135 +94,67 @@ public:
  *
  */
 // Obviously a temperature sensor is not a humidity sensor. But in my implementation it's more usefull
-class Humidity : public Temperature{
+class Humidity : public Temperature
+{
 public:
-
-    Humidity() {this->_unit = "%";};
-    Humidity(float min, float max,float sensorFrequency, std::string nameSensor) : Temperature(min, max,sensorFrequency, nameSensor) {
+    Humidity() : Temperature(){};
+    Humidity(float min, float max, float sensorFrequency, std::string nameSensor) : Temperature(min, max, sensorFrequency, nameSensor)
+    {
         this->_unit = "%";
     };
     virtual ~Humidity(){};
-
 };
 
 /**
  * @brief Child class of sensor -> Sound
  *
  */
-class Sound : public Sensor<int>{
-private:
-
-    int _min, _max;
+class Sound : public Sensor<int>
+{
 
 public:
+    Sound() : Sensor() {}
 
-    Sound() : _min(0), _max(0){
+    Sound(int min, int max, float sensorFrequency, std::string nameSensor) : Sensor(min, max, sensorFrequency, nameSensor)
+    {
 
-        this->_name_sensor = "UNKNOWN";
-        this->_val_sense = 0;
-        this->_sensor_frequency = 0; 
-        this->_unit = "dB";
-
-    };
-
-    Sound(int min, int max,float sensorFrequency, std::string nameSensor) : _min(min), _max(max){   
-        
-        this->_name_sensor = nameSensor;
         this->_val_sense = this->aleaGen();
-        this->_sensor_frequency = sensorFrequency;
         this->_unit = "dB";
-
     };
 
-    Sound(const Sound &s){
-
-        this->_sensor_frequency = s._sensor_frequency;
-        this->_name_sensor = s._name_sensor;
-        this->_val_sense = s._val_sense;
-        this->_min = s._min;
-        this->_max = s._max;
-        this->_unit = s._unit;
-
-    };
-
-    Sound &operator=(const Sound &s){
-
-        if (this != &s){
-            this->_sensor_frequency = s._sensor_frequency;
-            this->_val_sense = s._val_sense;
-            this->_min = s._min;
-            this->_max = s._max;
-            this->_unit = s._unit;
-        }
-        return (*this);
-
-    };
-
-    int aleaGen(){
+    int aleaGen()
+    {
 
         std::mt19937 gen(std::random_device{}());
         std::uniform_int_distribution dist(this->_min, this->_max);
         return dist(gen);
-
     };
     virtual ~Sound(){};
 };
 /**
  * @brief Child class of Sensor<bool>
- * 
+ *
  */
-class Light : public Sensor<bool>{
+class Light : public Sensor<bool>
+{
 public:
+    Light() : Sensor() {}
 
-    Light(){
+    Light(int min, int max, float sensorFrequency, std::string nameSensor) : Sensor(min, max, sensorFrequency, nameSensor)
+    {
 
-        this->_name_sensor = "UNKNOWN";
-        this->_val_sense = false;
-        this->_sensor_frequency = 0;
-        this->_unit = " ";
-
-    };
-
-    Light(float sensorFrequency, std::string nameSensor){
-
-        this->_name_sensor = nameSensor;
         this->_val_sense = this->aleaGen();
-        this->_sensor_frequency = sensorFrequency;
         this->_unit = " ";
-
     };
 
-    Light(const Light &l){   
-
-        this->_sensor_frequency = l._sensor_frequency;
-        this->_name_sensor = l._name_sensor;
-        this->_val_sense = l._val_sense;
-        this->_unit = l._unit;
-
-    };
-
-    Light &operator=(const Light &l){
-        if (this != &l){   
-
-            this->_sensor_frequency = l._sensor_frequency;
-            this->_name_sensor = l._name_sensor;
-            this->_val_sense = l._val_sense;
-            this->_unit = l._unit;
-
-        }
-        return (*this);
-
-    };
-
-    bool aleaGen(){
-
+    bool aleaGen()
+    {
         std::mt19937 gen(std::random_device{}());
-        std::uniform_int_distribution dist(0,1);
+        std::uniform_int_distribution dist(0, 1);
         return dist(gen);
     };
+
     virtual ~Light(){};
-
 };
-
 
 #endif
