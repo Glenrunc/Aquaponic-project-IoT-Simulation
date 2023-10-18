@@ -11,18 +11,22 @@
 #ifndef __SENSOR_HPP__
 #define __SENSOR_HPP__
 
-#include <iostream>
 #include <random>
 #include <string>
-#include <vector>
 #include <ctime>
 #include <fstream>
 #include <filesystem>
 #include <thread>
 #include <chrono>
-#include <limits>
+#include <mutex>
+#include <cstdlib>
+#include <input.hpp>
 
-using std::string, std::cout, std::cerr, std::endl, std::vector, std::ofstream;
+#ifdef _WIN32
+#define CLEAN "cls" // This will clear the console screen on Windows
+#else
+#define CLEAN "clear" // This will clear the console screen on Unix-based systems
+#endif
 
 /**
  * @brief Sensor class template<T>
@@ -140,7 +144,7 @@ class Light : public Sensor<bool>
 public:
     Light() : Sensor() {}
 
-    Light(int min, int max, float sensorFrequency, std::string nameSensor) : Sensor(min, max, sensorFrequency, nameSensor)
+    Light(bool min, bool max, float sensorFrequency, std::string nameSensor) : Sensor(min, max, sensorFrequency, nameSensor)
     {
 
         this->_val_sense = this->aleaGen();

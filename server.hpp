@@ -21,6 +21,7 @@ class Server
 private:
     bool _consol_activation;
     bool _log_activation;
+    std::mutex consoleMutex; // Add a mutex for console access
 
 public:
     Server();
@@ -38,6 +39,7 @@ public:
     template <class T>
     void consoleWrite(T val, string nameSensor, string unit)
     {
+        std::lock_guard<std::mutex> lock(this->consoleMutex);
         cout << this->getTime() << " : " << nameSensor << " " << val << " " << unit << "\n";
     }
 
@@ -47,7 +49,6 @@ public:
 
         if (this->_log_activation)
         {
-
             std::filesystem::create_directories(folderName); // Doesn't create if folder is here
             std::ofstream file;
 
@@ -66,6 +67,22 @@ public:
 
             file.close();
         }
+    }
+    void stopLog()
+    {
+        this->_log_activation = false;
+    }
+    void stopConsole()
+    {
+        this->_consol_activation = false;
+    }
+    void onLog()
+    {
+        this->_log_activation = true;
+    }
+    void onConsole()
+    {
+        this->_consol_activation = true;
     }
 };
 
