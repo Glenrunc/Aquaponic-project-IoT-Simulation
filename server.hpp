@@ -46,16 +46,13 @@ public:
     template <class T>
     void fileWrite(string nameSensor, string folderName, T val, string unit)
     {
-
         if (this->_log_activation)
         {
             std::filesystem::create_directories(folderName); // Doesn't create if folder is here
             std::ofstream file;
-
             // Each sensor has a file
             string filePath = folderName + '/' + nameSensor + this->getDayAndYear() + ".txt";
             file.open(filePath, std::ios::app);
-
             if (file)
             {
                 file << this->getTime() << " , " << val << " , " << unit << endl;
@@ -64,26 +61,14 @@ public:
             {
                 cerr << "file errror, couldn't open the right file" << endl;
             }
-
             file.close();
         }
     }
-    void stopLog()
-    {
-        this->_log_activation = false;
-    }
-    void stopConsole()
-    {
-        this->_consol_activation = false;
-    }
-    void onLog()
-    {
-        this->_log_activation = true;
-    }
-    void onConsole()
-    {
-        this->_consol_activation = true;
-    }
+
+    void stopLog();
+    void stopConsole();
+    void onLog();
+    void onConsole();
 };
 
 #endif

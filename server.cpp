@@ -76,3 +76,20 @@ string Server::getDayAndYear()
     int year = 1900 + timeinfo->tm_year; // Year since 1900
     return "_" + std::to_string(day) + "_" + std::to_string(month) + "_" + std::to_string(year);
 }
+
+void Server::stopLog()
+{
+    this->_log_activation = false;
+}
+void Server::stopConsole()
+{
+    this->_consol_activation = false;
+}
+void Server::onLog()
+{
+    this->_log_activation = true;
+}
+void Server::onConsole()
+{
+    this->_consol_activation = true;
+}

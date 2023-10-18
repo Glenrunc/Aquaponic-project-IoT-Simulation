@@ -29,31 +29,7 @@ private:
     bool _running;
 
     template <class T>
-    void displayData(Sensor<T> &sensor)
-    {
-
-        if (!(sensor.getNameSensor() == "UNKNOWN"))
-        {
-            bool log = this->_server.getLog();
-            bool consol = this->_server.getConsol();
-
-            if (log && consol)
-            {
-                this->_server.fileWrite(sensor.getNameSensor(), "logs", sensor.sendData(), sensor.getUnit());
-                this->_server.consoleWrite(sensor.sendData(), sensor.getNameSensor(), sensor.getUnit());
-            }
-            else if (consol)
-            {
-                this->_server.consoleWrite(sensor.sendData(), sensor.getNameSensor(), sensor.getUnit());
-            }
-            else if (log)
-            {
-                this->_server.fileWrite(sensor.getNameSensor(), "logs", sensor.sendData(), sensor.getUnit());
-            }
-
-            std::this_thread::sleep_for(std::chrono::milliseconds(sensor.getSensorFrequency()));
-        }
-    }
+    void displayData(Sensor<T> &sensor);
 
 public:
     Scheduler(Server server, Temperature temperature, Humidity humidity, Sound sound, Light light) : _server(server),
@@ -72,84 +48,8 @@ public:
         this->_running = false;
     }
 
-    void userInputSheduler()
-    {
-        char input;
-        cout << "Press 'q' to stop the scheduler. 'l/o' to log/off log writing. 'c/s' to console/stop console writing\n"
-             << endl;
-
-        while (true)
-        {
-            flushInput();
-
-            if ((this->_server.getConsol() == false) && (this->_server.getLog() == false))
-            {
-                cout << "Warning you have disable the consol writing and file writing \n\nDo you want to continue 'c' to activate console, 'l' to activate log and 'q' ?" << endl;
-            }
-
-            cin >> input;
-            if (input == 'q')
-            {
-                this->stop();
-                break;
-            }
-            if (input == 'o')
-            {
-                this->_server.stopLog();
-            }
-            if (input == 's')
-            {
-                this->_server.stopConsole();
-            }
-            if (input == 'c')
-            {
-                this->_server.onConsole();
-            }
-            if (input == 'l')
-            {
-                this->_server.onLog();
-            }
-        }
-    }
-    void run()
-    {
-        while (this->_running == true)
-        {
-            std::thread threadDispTemp([&]()
-                                       {
-                    while(this-> _running == true){
-                        displayData<float>(_temperature);
-                    } });
-
-            std::thread threadDispHumi([&]()
-                                       {
-                    while(this-> _running == true){
-                        displayData<float>(_humidity);
-                    } });
-
-            std::thread threadDispSound([&]()
-                                        {
-                    while(this-> _running == true){
-                        displayData<int>(_sound);
-                    } });
-
-            std::thread threadDispLight([&]()
-                                        {
-                    while(this-> _running == true){
-                        displayData<bool>(_light);
-                    } });
-
-            threadDispTemp.join();
-            threadDispHumi.join(); // Wait for ending thread
-            threadDispSound.join();
-            threadDispLight.join();
-        }
-        if (this->_running == false)
-        {
-
-            cout << "SCHEDULER DISABLE" << endl;
-        }
-    }
+    void userInputSheduler();
+    void run();
 };
 
 #endif
