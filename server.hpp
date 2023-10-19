@@ -37,14 +37,14 @@ public:
     bool getConsol() { return _consol_activation; };
 
     template <class T>
-    void consoleWrite(T val, string nameSensor, string unit)
+    void consoleWrite(T val, string nameSensor, string unit) // Usefull to write in the consol
     {
         std::lock_guard<std::mutex> lock(this->consoleMutex);
         cout << this->getTime() << " : " << nameSensor << " " << val << " " << unit << "\n";
     }
 
     template <class T>
-    void fileWrite(string nameSensor, string folderName, T val, string unit)
+    void fileWrite(string nameSensor, string folderName, T val, string unit) // UseFull to write in a file of your choice
     {
         if (this->_log_activation)
         {

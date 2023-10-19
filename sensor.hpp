@@ -1,7 +1,7 @@
 /**
  * @file sensor.hpp
  * @author Mattéo Pourcine
- * @brief
+ * @brief Definition of Sensor class and her children 
  * @version 0.1
  * @date 2023-10-14
  *

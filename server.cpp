@@ -76,7 +76,10 @@ string Server::getDayAndYear()
     int year = 1900 + timeinfo->tm_year; // Year since 1900
     return "_" + std::to_string(day) + "_" + std::to_string(month) + "_" + std::to_string(year);
 }
-
+/**
+ * @brief Functions to change boolean attribut of server
+ *
+ */
 void Server::stopLog()
 {
     this->_log_activation = false;

@@ -48,7 +48,7 @@ Scheduler &Scheduler::operator=(const Scheduler &scheduler)
 }
 
 /**
- * @brief
+ * @brief Will be implement in a thread to display data in the consol or in a file or both
  *
  * @tparam T
  * @param sensor
@@ -78,47 +78,50 @@ void Scheduler::displayData(Sensor<T> &sensor)
 }
 
 /**
- * @brief
+ * @brief Check input during the run of sheduler
  *
  */
 void Scheduler::userInputSheduler()
 {
-    char input;
-    cout << "Press 'q' to stop the scheduler. 'l/o' to log/off log writing. 'c/s' to console/stop console writing\n"
+    std::string input;
+    cout << "Press 'q' to stop the scheduler. 'l/o' to log/off log writing. 'c/s' to console/stop console writing\n\n\n Be aware that if you press a world like 'oers' it will stop console writing and log writing because of the 's' and 'o'\n"
          << endl;
     while (true)
     {
-        flushInput();
+
         if ((this->_server.getConsol() == false) && (this->_server.getLog() == false))
         {
-            cout << "Warning you have disable the consol writing and file writing \n\nDo you want to continue 'c' to activate console, 'l' to activate log and 'q' ?" << endl;
+            cout << "Warning you have disable the consol writing and file writing \n\nDo you want to continue 'c' to activate console, 'l' to activate log or quit 'q' ?" << endl;
         }
-        cin >> input;
-        if (input == 'q')
+        std::getline(std::cin, input);
+        for (char c : input)
         {
-            this->stop();
-            break;
-        }
-        if (input == 'o')
-        {
-            this->_server.stopLog();
-        }
-        if (input == 's')
-        {
-            this->_server.stopConsole();
-        }
-        if (input == 'c')
-        {
-            this->_server.onConsole();
-        }
-        if (input == 'l')
-        {
-            this->_server.onLog();
+            if (c == 'q')
+            {
+                this->stop();
+                return;
+            }
+            else if (c == 'o')
+            {
+                this->_server.stopLog();
+            }
+            else if (c == 's')
+            {
+                this->_server.stopConsole();
+            }
+            else if (c == 'c')
+            {
+                this->_server.onConsole();
+            }
+            else if (c == 'l')
+            {
+                this->_server.onLog();
+            }
         }
     }
 }
 /**
- * @brief
+ * @brief Begin all the thread usefull for the writing
  *
  */
 void Scheduler::run()
