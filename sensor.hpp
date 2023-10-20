@@ -86,7 +86,7 @@ public:
     {
 
         std::mt19937 gen(std::random_device{}());
-        std::uniform_real_distribution dist(this->_min, this->_max);
+        std::uniform_real_distribution<float> dist(this->_min, this->_max);
         return dist(gen);
     };
 
@@ -130,7 +130,7 @@ public:
     {
 
         std::mt19937 gen(std::random_device{}());
-        std::uniform_int_distribution dist(this->_min, this->_max);
+        std::uniform_int_distribution<int> dist(this->_min, this->_max);
         return dist(gen);
     };
     virtual ~Sound(){};
@@ -154,7 +154,7 @@ public:
     bool aleaGen()
     {
         std::mt19937 gen(std::random_device{}());
-        std::uniform_int_distribution dist(0, 1);
+        std::uniform_int_distribution<int> dist(0, 1);
         return dist(gen);
     };
 

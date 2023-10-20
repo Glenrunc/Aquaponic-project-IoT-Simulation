@@ -1,3 +1,10 @@
 *.exe 
 *.o
 logs
+*.toc
+*.tex
+*.out
+*.aux
+*.gz
+*.log
+*.dot

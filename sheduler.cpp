@@ -125,7 +125,8 @@ void Scheduler::userInputSheduler()
  *
  */
 void Scheduler::run()
-{
+{   
+   
     while (this->_running == true)
     {
         std::thread threadDispTemp([&]()

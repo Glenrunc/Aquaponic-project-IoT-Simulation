@@ -16,7 +16,7 @@
 #include <vector>
 #include <utility>
 
-using std::string, std::cout, std::cerr, std::endl, std::ofstream, std::cin, std::vector;
+using namespace std;
 /**
  * @brief Flush buffer
  *
