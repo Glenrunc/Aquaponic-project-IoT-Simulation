@@ -48,7 +48,7 @@ public:
         this->_running = false;
     }
 
-    void userInputSheduler();
+    void userInputScheduler();
     void run();
 };
 

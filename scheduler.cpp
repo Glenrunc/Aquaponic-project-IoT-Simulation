@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2023
  *
  */
-#include <sheduler.hpp>
+#include <scheduler.hpp>
 
 /**
  * @brief Construct a new Scheduler:: Scheduler object
@@ -81,7 +81,7 @@ void Scheduler::displayData(Sensor<T> &sensor)
  * @brief Check input during the run of sheduler
  *
  */
-void Scheduler::userInputSheduler()
+void Scheduler::userInputScheduler()
 {
     std::string input;
     cout << "Press 'q' to stop the scheduler. 'l/o' to log/off log writing. 'c/s' to console/stop console writing\n\n\n Be aware that if you press a world like 'oers' it will stop console writing and log writing because of the 's' and 'o'\n"

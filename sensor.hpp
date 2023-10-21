@@ -40,14 +40,14 @@ class Sensor
 protected:
     T _min;
     T _max;
-    T _val_sense;
+    T _val_sense   ;
     string _name_sensor;
     string _unit;          // Usefull for console writing
     int _sensor_frequency; // in millisecond !
 
 public:
     Sensor() { this->_name_sensor = "UNKNOWN"; };
-    Sensor(float min, float max, float sensorFrequency, std::string nameSensor)
+    Sensor(T min, T max, int sensorFrequency, std::string nameSensor)
     {
 
         this->_min = min;
@@ -76,7 +76,7 @@ class Temperature : public Sensor<float>
 public:
     Temperature() : Sensor(){};
 
-    Temperature(float min, float max, float sensorFrequency, std::string nameSensor) : Sensor(min, max, sensorFrequency, nameSensor)
+    Temperature(float min, float max, int sensorFrequency, std::string nameSensor) : Sensor(min, max, sensorFrequency, nameSensor)
     {
         this->_val_sense = this->aleaGen();
         this->_unit = "°C";
@@ -102,7 +102,7 @@ class Humidity : public Temperature
 {
 public:
     Humidity() : Temperature(){};
-    Humidity(float min, float max, float sensorFrequency, std::string nameSensor) : Temperature(min, max, sensorFrequency, nameSensor)
+    Humidity(float min, float max, int sensorFrequency, std::string nameSensor) : Temperature(min, max, sensorFrequency, nameSensor)
     {
         this->_unit = "%";
     };
@@ -119,7 +119,7 @@ class Sound : public Sensor<int>
 public:
     Sound() : Sensor() {}
 
-    Sound(int min, int max, float sensorFrequency, std::string nameSensor) : Sensor(min, max, sensorFrequency, nameSensor)
+    Sound(int min, int max, int sensorFrequency, std::string nameSensor) : Sensor(min, max, sensorFrequency, nameSensor)
     {
 
         this->_val_sense = this->aleaGen();
@@ -144,7 +144,7 @@ class Light : public Sensor<bool>
 public:
     Light() : Sensor() {}
 
-    Light(bool min, bool max, float sensorFrequency, std::string nameSensor) : Sensor(min, max, sensorFrequency, nameSensor)
+    Light(bool min, bool max, int sensorFrequency, std::string nameSensor) : Sensor(min, max, sensorFrequency, nameSensor)
     {
 
         this->_val_sense = this->aleaGen();

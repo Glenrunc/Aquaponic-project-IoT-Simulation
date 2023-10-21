@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2023
  * 
  */
-#include <sheduler.hpp>
+#include <scheduler.hpp>
 
 int main(int argc, char *argv[])
 {
@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
     Scheduler scheduler(server, temperature, humidity, sound, light);
 
     // BEGINNING OF THE IoT System
-    std::thread inputThread(&Scheduler::userInputSheduler, &scheduler);
+    std::thread inputThread(&Scheduler::userInputScheduler, &scheduler);
     std::thread runScheduler(&Scheduler::run, &scheduler);
 
     inputThread.join();
