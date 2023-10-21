@@ -1,2 +1,3 @@
 # SIMPLE PRACTICAL PROJECT OOP IN C++ ~ IoT Implementation
-- See UML diagram
+
+<img src="ProjectReport/UML.dot.png" height="250">
