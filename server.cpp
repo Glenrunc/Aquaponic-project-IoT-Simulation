@@ -19,6 +19,7 @@ Server::Server()
 {
     this->_consol_activation = false;
     this->_log_activation = false;
+    this->_unique_file = false;
 }
 
 /**
@@ -33,6 +34,8 @@ Server &Server::operator=(const Server &s)
     {
         this->_consol_activation = s._consol_activation;
         this->_log_activation = s._log_activation;
+        this->_unique_file = s._unique_file;
+
     }
     return (*this);
 }
@@ -42,11 +45,14 @@ Server &Server::operator=(const Server &s)
  *
  * @param consolActivation
  * @param logActivation
+ * @param uniqueFile
  */
-Server::Server(bool consolActivation, bool logActivation)
+Server::Server(bool consolActivation, bool logActivation, bool uniqueFile)
 {
     this->_consol_activation = consolActivation;
     this->_log_activation = logActivation;
+    this->_unique_file = uniqueFile;
+
 }
 
 /**

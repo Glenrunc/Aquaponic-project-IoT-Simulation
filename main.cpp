@@ -15,6 +15,7 @@ int main(int argc, char *argv[])
     char charInputUser = ' ';
     bool consolActivation = false;
     bool fileActivation = false;
+    bool uniqueFile = false;
     vector<char> verif = {'Y', 'y', 'N', 'n'};
     std::pair<int, string> build;
     // Clean the command prompt before begining
@@ -22,7 +23,7 @@ int main(int argc, char *argv[])
 
 
     // System's presentation
-    cout << "\t\t\t\t~WELCOME TO THE IoT SIMULATION~\n\nHere we are -> So you have 4 sensors (temperature, humidity, sound and light).\n\nYou can choose there names and there frequencies at which they will be displaying in the command prompt or file.\n\nYou can also choose to display there values or not as you want during the execution, just follow these instructions\n\n\n"
+    cout << "\t\t\t\t~WELCOME TO THE IoT SIMULATION~\n\nHere we are -> So you have 4 sensors (temperature, humidity, sound and light).\n\nYou can choose there names and there frequencies at which they will be displayed in the command prompt or file.\n\nYou can also choose to display their values or not as you want during the execution, just follow these instructions\n\n\n"
          << endl;
 
 
@@ -33,6 +34,15 @@ int main(int argc, char *argv[])
     if (charInputUser == 'Y' || charInputUser == 'y')
     {
         fileActivation = true;
+    }
+    if(fileActivation == true){
+        cout << "Do you want to have a unique file for logs (y/n) ?\n"
+             << endl;
+        charInputUser = charInput(verif);
+        if (charInputUser == 'Y' || charInputUser == 'y')
+        {
+            uniqueFile = true;
+        }
     }
     cout << "Do you want to activate console (y/n) ?\n"
          << endl;
@@ -49,7 +59,7 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    Server server(consolActivation, fileActivation);
+    Server server(consolActivation, fileActivation, uniqueFile);
 
 
 

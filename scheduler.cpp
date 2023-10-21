@@ -60,18 +60,14 @@ void Scheduler::displayData(Sensor<T> &sensor)
     {
         bool log = this->_server.getLog();
         bool consol = this->_server.getConsol();
-        if (log && consol)
-        {
-            this->_server.fileWrite(sensor.getNameSensor(), "logs", sensor.sendData(), sensor.getUnit());
-            this->_server.consoleWrite(sensor.sendData(), sensor.getNameSensor(), sensor.getUnit());
-        }
-        else if (consol)
+    
+        if (consol)
         {
             this->_server.consoleWrite(sensor.sendData(), sensor.getNameSensor(), sensor.getUnit());
         }
-        else if (log)
+        if (log)
         {
-            this->_server.fileWrite(sensor.getNameSensor(), "logs", sensor.sendData(), sensor.getUnit());
+            this->_server.fileWrite(sensor.getNameSensor(), "logs", sensor.sendData(), sensor.getUnit(),this->_server.getUnique());
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(sensor.getSensorFrequency()));
     }
