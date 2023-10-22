@@ -93,10 +93,10 @@ int main(int argc, char *argv[])
 
     // BEGINNING OF THE IoT System
     std::thread inputThread(&Scheduler::userInputScheduler, &scheduler);
-    std::thread runScheduler(&Scheduler::run, &scheduler);
-
+    // std::thread runScheduler(&Scheduler::run, &scheduler);
+    scheduler.run();
     inputThread.join();
-    runScheduler.join();
+    // runScheduler.join(); 
 
     return 0;
 }

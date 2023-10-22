@@ -47,7 +47,7 @@ public:
     {
         this->_running = false;
     }
-
+    bool getRunning(){return this->_running;};
     void userInputScheduler();
     void run();
 };

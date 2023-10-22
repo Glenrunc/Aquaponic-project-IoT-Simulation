@@ -56,20 +56,23 @@ Scheduler &Scheduler::operator=(const Scheduler &scheduler)
 template <class T>
 void Scheduler::displayData(Sensor<T> &sensor)
 {
-    if (!(sensor.getNameSensor() == "UNKNOWN"))
-    {
-        bool log = this->_server.getLog();
-        bool consol = this->_server.getConsol();
-    
-        if (consol)
-        {
-            this->_server.consoleWrite(sensor.sendData(), sensor.getNameSensor(), sensor.getUnit());
+    if (!(sensor.getNameSensor() == "UNKNOWN")) // If the sensor doesn't exist it's ciao
+    {   
+        if(this->getRunning() == true){ // Now if  the system isn't running it's ciao
+            bool log = this->_server.getLog();
+            bool consol = this->_server.getConsol();
+
+            if (consol)
+            {
+                this->_server.consoleWrite(sensor.sendData(), sensor.getNameSensor(), sensor.getUnit());
+            }
+            if (log)
+            {
+                this->_server.fileWrite(sensor.getNameSensor(), "logs", sensor.sendData(), sensor.getUnit(),this->_server.getUnique());
+            }
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(sensor.getSensorFrequency()));
         }
-        if (log)
-        {
-            this->_server.fileWrite(sensor.getNameSensor(), "logs", sensor.sendData(), sensor.getUnit(),this->_server.getUnique());
-        }
-        std::this_thread::sleep_for(std::chrono::milliseconds(sensor.getSensorFrequency()));
     }
 }
 
